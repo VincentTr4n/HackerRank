@@ -4,36 +4,39 @@ import java.util.*;
 public class Abbreviation {
 
 	public static void main(String[] args) {
-		//System.out.println("--"+c);
 		Scanner in = new Scanner(System.in);
 		int q = in.nextInt();
-		for(int q0=0;q0<q;q0++){
-			String a = in.next();
-			String b = in.next();
-			int []au = new int[26];
-			int []ar = new int[b.length()];
-			String s="";
-			int index = 0;
-			//int d = 0;
-			for(char c : b.toCharArray()) {au[c-'A']++; ar[index++]=c-'A';}
-			index=0;
-			for(char c : a.toCharArray()){
-				int temp = index;
-				if(c>=97){
-					if(au[c-'a']>0)
-						if(ar[index++]==c-'a') {s+=c; System.out.print(c);au[c-97]--;}
-						else {index=temp;}
-				}
-				if(c<=90){
-					if(au[c-'A']>0 && ar[index++]==c-'A') {s+=c; System.out.print(c);au[c-65]--;}
-					else {index=temp;s+=c;}
-				}
-			}
-			System.out.println();
-			System.out.println(s);
-			if(s.toUpperCase().equals(b)) System.out.println("YES");
-			else System.out.println("NO");
-		}
-		in.close();	
+		int[]T1 = new int[26];
+		int[]T2 = new int[26];
+        for(int a0 = 0; a0 < q; a0++)
+        {
+        	String a = in.next();
+    		String b = in.next();
+    		if(a.length()<b.length()) System.out.println("NO");
+    		else{
+    			for (int i : a.toCharArray()) if(i<97) T1[i-'A']++;
+    			for (int i : b.toCharArray()) if(i<97) T2[i-'A']++;
+    			boolean ok = false;
+    			for (int i = 0; i < 26; i++) if(T1[i]>T2[i]) {ok = true; break;}
+    			if(ok) System.out.println("NO");
+    			else{
+    				a = a.toUpperCase();
+            		int N = a.length();
+            		int M = b.length();
+            		int[][] db = new int[N+1][M+1];
+            		for(int i=1;i<=N;i++){
+            			for(int j=1;j<=M;j++){
+            				if(a.charAt(i-1)==b.charAt(j-1)) db[i][j] = db[i-1][j-1] + 1;
+            				else db[i][j] = Math.max(db[i][j-1], db[i-1][j]);
+            			}
+            		}
+            		if(db[N][M]==M) System.out.println("YES");
+            		else System.out.println("NO");
+    			}
+        		T1 = new int[26];
+        		T2 = new int[26];
+    		}
+        }
+		in.close();
 	}
 }
