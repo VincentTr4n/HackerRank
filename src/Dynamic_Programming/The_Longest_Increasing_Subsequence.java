@@ -16,7 +16,6 @@ public class The_Longest_Increasing_Subsequence {
         List<Integer> min = new ArrayList<Integer>();
         for (int i : arr) {
 			int l = 0,r = min.size();
-			System.out.println(r);
 			while(l<r){
 				int m = (l+r)/2;
 				if(min.get(m)<i) l=m + 1;
